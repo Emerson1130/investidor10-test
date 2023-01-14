@@ -2,9 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Hash;
-use App\Models\User;
-use Illuminate\Validation\ValidationException;
+use App\Http\Controllers\AuthApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,25 +15,12 @@ use Illuminate\Validation\ValidationException;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::post('/sanctum/token', function (Request $request) {
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
     
-    $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-        //'device_name' => 'required',
-    ]);
-
-    $user = User::where('email', $request->email)->first();
-
-    if (! $user || ! Hash::check($request->password, $user->password)) {
-        throw ValidationException::withMessages([
-            'email' => ['The provided credentials are incorrect.'],
-        ]);
-    }
- 
-    return $user->createToken($request->email)->plainTextToken;
+    Route::post('/sanctum/loggout', [AuthApiController::class, 'loggout']);
 });
+
+Route::post('/sanctum/token', [AuthApiController::class, 'login']);
