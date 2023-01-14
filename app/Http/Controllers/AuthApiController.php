@@ -7,10 +7,12 @@ use Throwable;
 use App\Services\AuthService;
 use App\Exceptions\InvalidCredentialsException;
 use App\Exceptions\UserNotLoggedException;
+use App\Traits\ControllerActions;
 
 class AuthApiController extends Controller
 {
-
+    use ControllerActions;
+    
     private AuthService $authService;
 
     public function __construct(AuthService $authService)
@@ -53,13 +55,6 @@ class AuthApiController extends Controller
         }
 
         return $this->response($status, ['message' => $message], $httpCode);
-    }
-
-    private function response(bool $status, array $response, int $httpCode)
-    {
-        $response['status'] = $status;
-
-        return response()->json($response, $httpCode);
     }
 
 }
