@@ -4,13 +4,14 @@ namespace App\Repositories;
 
 use App\Contracts\CRUDContract;
 use App\Models\Book;
+use App\Repositories\DatabaseBaseRepository;
 
-class BookRepository implements CRUDContract
+class BookRepository extends DatabaseBaseRepository implements CRUDContract
 {
 
-    public function store(Book $book)
+    public function __construct(Book $model)
     {
-        return $book->save();
+        parent::__construct($model);
     }
 
 }

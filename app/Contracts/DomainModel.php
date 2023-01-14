@@ -2,9 +2,7 @@
 
 namespace App\Contracts;
 
-interface DomainModel {
-    
-    
+interface DomainModel
+{
     
 }
-

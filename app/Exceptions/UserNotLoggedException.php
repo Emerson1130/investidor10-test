@@ -2,14 +2,15 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Validation\ValidationException;
+use RuntimeException;
 
-class UserNotLoggedException extends ValidationException
+class UserNotLoggedException extends RuntimeException
 {
 
     public function __construct(string $message = 'User is not logged.')
     {
         $this->message = $message;
+        parent::__construct($message);
     }
 
 }
