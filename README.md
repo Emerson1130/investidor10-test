@@ -6,9 +6,11 @@ All commands must be executed at the root of the project, inside PHP server, aft
 
 ```
 composer install
-composer post-root-package-install
-composer post-create-project-cmd
+composer run post-root-package-install
+composer run post-create-project-cmd
+php artisan breeze:install
 npm install
+php artisan config:cache
 ```
 
 > Don't forget to correctly configure your .env file at the root of the project so that the connection to the database, for example, can be successful.
@@ -25,11 +27,10 @@ service apache2 restart
 You will need to create the tables in the database for the project to work as expected, so run the following command:
 
 ```
-$ php artisan migrate INFO  Running migrations.  
+$ php artisan migrate
 
 INFO  Running migrations.  
 2023_01_14_182743_create_books_table .................................... 599ms DONE
-
 ```
 
 ## Register
@@ -167,7 +168,7 @@ Answers:
 ```
 
 ## Book: update
-Route: [`PUT`]  http://localhost:8080/app/public/api/books/`6`
+Route: [`PUT`]  http://localhost:8080/app/public/api/books/6
 
 Payload:
 ```
@@ -201,7 +202,7 @@ Answers:
 ```
 
 ## Book: destroy
-Route: [`DELETE`]  http://localhost:8080/app/public/api/books/`6`
+Route: [`DELETE`]  http://localhost:8080/app/public/api/books/6
 
 Answers:
 ```
@@ -227,7 +228,7 @@ Answers:
 ```
 
 ## Book: get
-Route: [`GET`]  http://localhost:8080/app/public/api/books/`6`
+Route: [`GET`]  http://localhost:8080/app/public/api/books/6
 
 Answers:
 ```

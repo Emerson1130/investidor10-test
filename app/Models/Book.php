@@ -19,12 +19,10 @@ class Book extends Model implements DomainModel
         'value',
         'user_id'
     ];
-    
     protected $cast = [
         'isbn' => 'integer',
         'value' => 'decimal'
     ];
-    
     protected $hidden = [
         'deleted_at'
     ];

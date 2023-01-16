@@ -11,8 +11,9 @@ use App\Traits\ControllerActions;
 
 class AuthApiController extends Controller
 {
+
     use ControllerActions;
-    
+
     private AuthService $authService;
 
     public function __construct(AuthService $authService)

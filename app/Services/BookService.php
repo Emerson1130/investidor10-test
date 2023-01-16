@@ -17,9 +17,9 @@ class BookService
     private BookValidator $bookValidator;
 
     public function __construct(
-        BookRepository $bookRepository,
-        BookFactory $bookFactory,
-        BookValidator $bookValidator,
+            BookRepository $bookRepository,
+            BookFactory $bookFactory,
+            BookValidator $bookValidator,
     )
     {
         $this->bookRepository = $bookRepository;
@@ -56,7 +56,7 @@ class BookService
 
         return $this->bookRepository->update($model);
     }
-    
+
     public function find(int $id)
     {
         $model = $this->bookRepository->find($id);
