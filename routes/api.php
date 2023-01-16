@@ -28,4 +28,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
     ]);
 });
 
-Route::post('/sanctum/token', [AuthApiController::class, 'login']);
+Route::post('/sanctum/login', [AuthApiController::class, 'login']);

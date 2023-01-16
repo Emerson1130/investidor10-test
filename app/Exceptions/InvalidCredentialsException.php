@@ -2,9 +2,9 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Validation\ValidationException;
+use InvalidArgumentException;
 
-class InvalidCredentialsException extends ValidationException
+class InvalidCredentialsException extends InvalidArgumentException
 {
 
     public function __construct(string $message = 'The provided credentials are incorrect.')

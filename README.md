@@ -1,66 +1,302 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Australia
+Simple API capable of performing user authentication and all handling (add, edit, delete, view) of books.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Installation
+All commands must be executed at the root of the project, inside PHP server, after cloning.
 
-## About Laravel
+```
+composer install
+composer post-root-package-install
+composer post-create-project-cmd
+npm install
+```
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+> Don't forget to correctly configure your .env file at the root of the project so that the connection to the database, for example, can be successful.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+After that, depending on the chosen HTTP server, it will be necessary to enable `a2enmod rewrite`, example: `Apache` - https://www.apache.org.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Access your HTTP server terminal and run the following commands:
+```
+a2enmod rewrite
+service apache2 restart
+```
 
-## Learning Laravel
+## Migrations
+You will need to create the tables in the database for the project to work as expected, so run the following command:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```
+$ php artisan migrate INFO  Running migrations.  
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+INFO  Running migrations.  
+2023_01_14_182743_create_books_table .................................... 599ms DONE
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```
 
-## Laravel Sponsors
+## Register
+For the `login` to be carried out, it is necessary to register a registered user through the `url`: http://localhost:8080/app/public/register
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Will be mandatory:
+- `name`
+- `email`
+- `password`
+- `confirm password`
 
-### Premium Partners
+## Login
+Route: [`POST`] http://localhost:8080/app/public/api/sanctum/login
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Payload:
+```
+{
+    "email": "test@gmail.com",
+    "password": "test123"
+}
+```
 
-## Contributing
+Answers:
+```
+[201] - {
+    "token": "6|8jHrCsGN3NNzhQMhoTdc2JAaFW8yq69nOL4gqOQK",
+    "user": {
+        "id": 1,
+        "name": "test",
+        "email": "test@gmail.com",
+        "email_verified_at": null,
+        "created_at": "2023-01-12T17:40:43.000000Z",
+        "updated_at": "2023-01-12T17:40:43.000000Z"
+    },
+    "status": true
+}
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```
+[401] - {
+    "message": "The provided credentials are incorrect.",
+    "status": false
+}
+```
 
-## Code of Conduct
+## How does the created token work?
+Once the token has been created correctly, it will be necessary to send it in the requests (listed below) so that the user can be identified and authorized.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+In the `header`, the following parameters must go:
+```
+Authorization:Bearer 4|F1rSGLm471RRA6hMndHhPsTPtyn6KbV0tIQ7ZEGD
+Accept:application/json
+```
+> Remember to prefix `Bearer` before the generated token
 
-## Security Vulnerabilities
+-  [`POST`] /app/public/api/sanctum/loggout
+-  [`POST`] /app/public/api/books
+-  [`PUT`] /app/public/api/books/<integer>
+-  [`DELETE`] /app/public/api/books/<integer>
+-  [`GET`] /app/public/api/books/<integer>
+-  [`GET`] /app/public/api/user
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Loggout
+Route: [`POST`]  http://localhost:8080/app/public/api/sanctum/loggout
 
-## License
+Answers:
+```
+[200] - {
+    "message": "Logout performed.",
+    "status": true
+}
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```
+[404] - {
+    "message": "User is not logged.",
+    "status": false
+}
+```
+
+## Book: store
+Route: [`POST`]  http://localhost:8080/app/public/api/books
+
+Payload:
+```
+{
+    "name": "Wise Soldier",
+    "isbn": 123456,
+    "value": 112.2
+}
+```
+
+Answers:
+```
+[201] - {
+    "id": 6,
+    "message": "Book saved.",
+    "status": true
+}
+```
+
+```
+[500] - {
+    "id": false,
+    "message": "Error on store the book.",
+    "status": false
+}
+```
+
+```
+[500] - {
+    "id": null,
+    "message": "SQLSTATE[HY000]: General error: 1364 Field 'user_id' doesn't have a default value (SQL: insert into `books` (`name`, `isbn`, `value`, `updated_at`, `created_at`) values (Wise Soldier, 123456, 112.2, 2023-01-15 13:03:02, 2023-01-15 13:03:02))",
+    "status": false
+}
+```
+
+```
+[500] - {
+    "message": "The name field is required. (and 2 more errors)",
+    "errors": {
+        "name": [
+            "The name field is required."
+        ],
+        "isbn": [
+            "The isbn field is required.",
+            "The isbn must be a number."
+        ],
+        "value": [
+            "The value field is required.",
+            "The value must be a number."
+        ]
+    }
+}
+```
+
+## Book: update
+Route: [`PUT`]  http://localhost:8080/app/public/api/books/`6`
+
+Payload:
+```
+{
+    "name": "Wise Soldier updated",
+    "isbn": 123456,
+    "value": 112.2
+}
+```
+
+Answers:
+```
+[201] - {
+    "message": "Book updated.",
+    "status": true
+}
+```
+
+```
+[500] - {
+    "message": "Error on update the book.",
+    "status": false
+}
+```
+
+```
+[404] - {
+    "message": "Resource not found.",
+    "status": false
+}
+```
+
+## Book: destroy
+Route: [`DELETE`]  http://localhost:8080/app/public/api/books/`6`
+
+Answers:
+```
+[200] - {
+    "message": "Book destroyed.",
+    "status": true
+}
+```
+
+```
+[500] - {
+    "id": false,
+    "message": "Error on destroy the book.",
+    "status": false
+}
+```
+
+```
+[404] - {
+    "message": "Resource not found.",
+    "status": false
+}
+```
+
+## Book: get
+Route: [`GET`]  http://localhost:8080/app/public/api/books/`6`
+
+Answers:
+```
+[200] - {
+    "resource": {
+        "id": 6,
+        "name": "Wise Soldier updated",
+        "isbn": 123456,
+        "value": 112.2
+        "user_id": 1,
+        "created_at": "2023-01-14T21:03:12.000000Z",
+        "updated_at": "2023-01-14T21:03:22.000000Z"
+    },
+    "message": "Resource found.",
+    "status": true
+}
+```
+
+```
+[500] - {
+    "resource": null,
+    "message": "Hello, this world is wrong :(",
+    "status": false
+}
+```
+
+```
+[404] - {
+    "resource": null,
+    "message": "Resource not found.",
+    "status": false
+}
+```
+
+## Technologies and Libraries
+- [Laravel] - https://laravel.com
+- [Laravel Sanctum] - https://laravel.com/docs/9.x/sanctum
+- [Laravel Eloquent] - https://laravel.com/docs/9.x/eloquent
+- [Laravel Validation] - https://laravel.com/docs/9.x/validation
+- [Laravel Testing] - https://laravel.com/docs/9.x/testing
+- [Laravel Routing] - https://laravel.com/docs/9.x/routing
+- [Laravel Migrations] - https://laravel.com/docs/9.x/migrations
+- [Laravel Brezze] - https://laravel.com/docs/9.x/starter-kits#laravel-breeze
+- [Laravel Artisan] - https://laravel.com/docs/9.x/artisan
+- [NPM] - https://www.npmjs.com
+- [Composer] - https://getcomposer.org
+- [PHP Stan] - https://phpstan.org
+
+## Unit tests
+For more information about the settings, check the `phpunit.xml` file in the root folder.
+
+Execution example in terminal:
+```sh
+$ php artisan test --testsuite=Unit
+
+PASS  Tests\Unit\ExampleTest
+✓ that true is true
+
+PASS  Tests\Unit\BookServiceTest
+✓ store should fail
+
+Tests:  2 passed
+Time:   0.36s
+```
+
+## Static analyzer
+```
+$ vendor/bin/phpstan analyse app
+
+52/52 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+[OK] No errors
+```

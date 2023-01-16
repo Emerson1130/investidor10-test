@@ -34,11 +34,11 @@ class BookController extends Controller
             $id = $this->bookService->store($request);
             $status = (!empty($id));
             $message = ($status) ? 'Book saved.' : 'Error on store the book.';
-            $httpCode = 201;
-        } catch (Throwable $exc) {
+            $httpCode = ($status) ? 201 : 500;
+        } catch (Throwable $throwable) {
             $id = null;
             $status = false;
-            $message = $exc->getMessage();
+            $message = $throwable->getMessage();
             $httpCode = 500;
         }
 
@@ -59,14 +59,14 @@ class BookController extends Controller
 
         try {
             $resource = $this->bookService->find($id);
-            $httpCode = 200;
             $status = ($resource instanceof DomainModel);
+            $httpCode = ($status) ? 200 : 500;
             $message = 'Resource found.';
-        } catch (ResourceNotFoundException $exc) {
-            $message = $exc->getMessage();
+        } catch (ResourceNotFoundException $exception) {
+            $message = $exception->getMessage();
             $httpCode = 404;
-        } catch (Throwable $exc) {
-            $message = $exc->getMessage();
+        } catch (Throwable $throwable) {
+            $message = $throwable->getMessage();
             $httpCode = 500;
         }
 
@@ -83,13 +83,17 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, $id)
     {
+        $status = false;
+
         try {
             $status = $this->bookService->update($id, $request);
             $message = ($status) ? 'Book updated.' : 'Error on update the book.';
-            $httpCode = 200;
-        } catch (Throwable $exc) {
-            $status = false;
-            $message = $exc->getMessage();
+            $httpCode = ($status) ? 200 : 500;
+        } catch (ResourceNotFoundException $exception) {
+            $message = $exception->getMessage();
+            $httpCode = 404;
+        } catch (Throwable $throwable) {
+            $message = $throwable->getMessage();
             $httpCode = 500;
         }
 
@@ -105,13 +109,17 @@ class BookController extends Controller
      */
     public function destroy($id, Request $request)
     {
+        $status = false;
+
         try {
             $status = $this->bookService->destroy($id, $request);
             $message = ($status) ? 'Book destroyed.' : 'Error on destroy the book.';
-            $httpCode = 200;
-        } catch (Throwable $exc) {
-            $status = false;
-            $message = $exc->getMessage();
+            $httpCode = ($status) ? 200 : 500;
+        } catch (ResourceNotFoundException $exception) {
+            $message = $exception->getMessage();
+            $httpCode = 404;
+        } catch (Throwable $throwable) {
+            $message = $throwable->getMessage();
             $httpCode = 500;
         }
 
