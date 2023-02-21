@@ -62,6 +62,25 @@ class PostController extends Controller
 
         return $this->response($status, $message, self::DEFAULT_RETURN_ROUTE);
     }
+    
+    public function preview(Request $request, $id)
+    {
+        $message = null;
+
+        try {
+            $data = $this->postService->getPreviewData($id, $request);
+        } catch (ResourceNotFoundException $exception) {
+            $message = $exception->getMessage();
+        } catch (Throwable $throwable) {
+            $message = $throwable->getMessage();
+        }
+
+        if (!is_null($message)) {
+            return redirect('dashboard')->withErrors(['message' => $message]);
+        }
+
+        return view('crud.post.preview', $data);
+    }
 
     /**
      * Display the specified resource.

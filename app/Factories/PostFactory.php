@@ -12,6 +12,7 @@ class PostFactory
         return new Post([
             'title' => $data['title'],
             'body' => $data['body'],
+            'category' => $data['category'],
             'user_id' => $data['user_id'],
         ]);
     }

@@ -19,6 +19,7 @@ class PostRepository extends DatabaseBaseRepository implements CRUDContract
 
         if (isset($filters['query']) && !empty($filters['query'])) {
             $query = $query->where('posts.title', 'like', '%' . $filters['query'] . '%')
+                           ->orWhere('posts.category', 'like', '%' . $filters['query'] . '%')
                            ->orWhere('posts.body', 'like', '%' . $filters['query'] . '%');
         }
         

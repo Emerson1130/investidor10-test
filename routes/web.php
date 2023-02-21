@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
-    Route::get('/posts/preview', [PostController::class, 'preview'])->name('posts.preview');
+    Route::get('/posts/preview/{id}', [PostController::class, 'preview'])->name('posts.preview');
     Route::get('/posts/search', [PostController::class, 'search'])->name('posts.search');
     Route::resource('posts', PostController::class)->only([
         'create', 'store', 'show', 'update', 'destroy'

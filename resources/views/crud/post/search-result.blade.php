@@ -2,8 +2,8 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-blue-100 border border-blue-500 text-blue-700 px-4 py-3 mb-2" role="alert">
-                <p class="text-sm"><b>Termo pesquisado</b>: "{{ $query }}"</p>
-                <p class="text-sm"><b>Total de resultados encontrados</b>: {{ $posts->count() }}</p>
+                <p class="text-sm"><b>Searched term</b>: "{{ $query }}"</p>
+                <p class="text-sm"><b>Total results found</b>: {{ $posts->count() }}</p>
             </div>
             
             <div class="overflow-hidden">
@@ -20,7 +20,7 @@
                         {!! $posts->links() !!}
                     @else
                         <div class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4" role="alert">
-                            <p>Nenhum resultado encontrado para esse filtro, me desculpe.</p>
+                            <p>No results found for this filter, sorry.</p>
                         </div>
                     @endif
                 </div>

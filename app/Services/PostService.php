@@ -31,6 +31,14 @@ class PostService
         return $this->postRepository->get();
     }
     
+    public function getPreviewData(int $id, Request $request)
+    {
+        return [
+            'logged_user_id' => GlobalHelper::getLoggedUserId($request),
+            'post' => $this->find($id),
+        ];
+    }
+    
     public function getSearchData(Request $request)
     {
         $query = $request->query('query');
@@ -50,6 +58,7 @@ class PostService
         $model = $this->postFactory->create([
             'title' => $request->get('title'),
             'body' => $request->get('body'),
+            'category' => $request->get('category'),
             'user_id' => GlobalHelper::getLoggedUserId($request)
         ]);
 
@@ -69,6 +78,7 @@ class PostService
 
         $model->title = $request->get('title');
         $model->body = $request->get('body');
+        $model->category = $request->get('category');
 
         return $this->postRepository->update($model);
     }
@@ -85,7 +95,7 @@ class PostService
     }
 
     public function destroy(int $id, Request $request)
-    {$id = 20;
+    {
         $model = $this->postRepository->find($id);
 
         if (empty($model)) {

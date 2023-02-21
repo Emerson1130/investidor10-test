@@ -16,6 +16,7 @@ class Post extends Model implements DomainModel
     protected $fillable = [
         'title',
         'body',
+        'category',
         'user_id'
     ];
     protected $hidden = [
