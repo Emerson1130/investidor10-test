@@ -3,29 +3,28 @@
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use App\Repositories\BookRepository;
-use App\Factories\BookFactory;
-use App\Validators\BookValidator;
-use App\Services\BookService;
+use App\Repositories\PostRepository;
+use App\Factories\PostFactory;
+use App\Validators\PostValidator;
+use App\Services\PostService;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Book;
+use App\Models\Post;
 
-class BookServiceTest extends TestCase
+class PostServiceTest extends TestCase
 {
-
-    private BookService $service;
+    private PostService $service;
 
     protected function setUp(): void
     {
-        $this->repository = $this->createMock(BookRepository::class);
-        $this->factory = $this->createMock(BookFactory::class);
-        $this->validator = $this->createMock(BookValidator::class);
+        $this->repository = $this->createMock(PostRepository::class);
+        $this->factory = $this->createMock(PostFactory::class);
+        $this->validator = $this->createMock(PostValidator::class);
         $this->user = $this->createMock(User::class);
-        $this->book = $this->createMock(Book::class);
+        $this->post = $this->createMock(Post::class);
 
         $this->request = $this->createMock(Request::class);
-        $this->service = new BookService(
+        $this->service = new PostService(
                 $this->repository, $this->factory, $this->validator
         );
     }
@@ -34,8 +33,8 @@ class BookServiceTest extends TestCase
     {
         $this->request->expects($this->any())
                 ->method('get')
-                ->withConsecutive(['name'], ['isbn'], ['value'])
-                ->will($this->onConsecutiveCalls('test', 123, 12.50));
+                ->withConsecutive(['title'], ['body'], ['category'])
+                ->will($this->onConsecutiveCalls('test', '12.50', 'action'));
 
         $this->request
                 ->expects($this->once())
@@ -54,23 +53,22 @@ class BookServiceTest extends TestCase
                 ->method('create')
                 ->with(
                         [
-                            'name' => 'test',
-                            'isbn' => 123,
-                            'value' => 12.50,
+                            'title' => 'test',
+                            'body' => '12.50',
+                            'category' => 'action',
                             'user_id' => 1
                         ]
                 )
-                ->willReturn($this->book);
+                ->willReturn($this->post);
 
         $this->repository
                 ->expects($this->once())
                 ->method('store')
-                ->with($this->book)
+                ->with($this->post)
                 ->willReturn(false);
 
         $result = $this->service->store($this->request);
 
         $this->assertFalse($result);
     }
-
 }

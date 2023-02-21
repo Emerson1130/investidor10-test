@@ -9,7 +9,6 @@ use App\Exceptions\UserNotLoggedException;
 
 class AuthService
 {
-
     private UserProvider $userProvider;
 
     public function __construct(UserProvider $userProvider)
@@ -47,5 +46,4 @@ class AuthService
 
         $user->tokens()->delete();
     }
-
 }

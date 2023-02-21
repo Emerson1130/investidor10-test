@@ -2,14 +2,12 @@
 
 namespace App\Traits;
 
-trait ControllerActions
+trait ApiControllerActions
 {
-
     public function response(bool $status, array $response, int $httpCode)
     {
         $response['status'] = $status;
 
         return response()->json($response, $httpCode);
     }
-
 }

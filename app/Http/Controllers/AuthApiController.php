@@ -7,12 +7,11 @@ use Throwable;
 use App\Services\AuthService;
 use App\Exceptions\InvalidCredentialsException;
 use App\Exceptions\UserNotLoggedException;
-use App\Traits\ControllerActions;
+use App\Traits\ApiControllerActions;
 
 class AuthApiController extends Controller
 {
-
-    use ControllerActions;
+    use ApiControllerActions;
 
     private AuthService $authService;
 
@@ -57,5 +56,4 @@ class AuthApiController extends Controller
 
         return $this->response($status, ['message' => $message], $httpCode);
     }
-
 }
