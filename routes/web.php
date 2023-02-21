@@ -19,14 +19,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/post/create', function () {
-    return view('post.register');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -35,6 +27,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('posts', PostController::class)->only([
         'create', 'store', 'show', 'update', 'destroy'
     ]);
+    
+    Route::get('/posts/preview', [PostController::class, 'preview'])->name('posts.preview');
+    Route::get('/dashboard', 'App\\Http\\Controllers\\Web\\DashboardController@index')->name('dashboard');
 });
 
 require __DIR__.'/auth.php';

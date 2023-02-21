@@ -25,7 +25,7 @@ class PostController extends Controller
     
     public function create()
     {
-        return view('crud.post.register');
+        return view('crud.post.create');
     }
 
     /**
@@ -38,6 +38,7 @@ class PostController extends Controller
     {
         try {
             $id = $this->postService->store($request);
+            dd($id);
             $status = (!empty($id));
             $message = ($status) ? 'Post saved.' : 'Error on store the post.';
             $httpCode = ($status) ? 201 : 500;

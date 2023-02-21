@@ -33,6 +33,11 @@ abstract class DatabaseBaseRepository
     {
         return $this->save($model);
     }
+    
+    public function get()
+    {
+        return $this->model::latest()->paginate(1);
+    }
 
     public function find(int $id)
     {

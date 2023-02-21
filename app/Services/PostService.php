@@ -11,28 +11,31 @@ use App\Validators\PostValidator;
 
 class PostService
 {
-
     private PostRepository $postRepository;
     private PostFactory $postFactory;
     private PostValidator $postValidator;
 
     public function __construct(
-            PostRepository $postRepository,
-            PostFactory $postFactory,
-            PostValidator $postValidator,
+        PostRepository $postRepository,
+        PostFactory $postFactory,
+        PostValidator $postValidator,
     )
     {
         $this->postRepository = $postRepository;
         $this->postFactory = $postFactory;
         $this->postValidator = $postValidator;
     }
+    
+    public function get()
+    {
+        return $this->postRepository->get();
+    }
 
     public function store(Request $request)
     {
         $model = $this->postFactory->create([
-            'name' => $request->get('name'),
-            'isbn' => $request->get('isbn'),
-            'value' => $request->get('value'),
+            'title' => $request->get('title'),
+            'body' => $request->get('body'),
             'user_id' => GlobalHelper::getLoggedUserId($request)
         ]);
 
@@ -50,9 +53,8 @@ class PostService
 
         $this->postValidator->manipulation($model, $request);
 
-        $model->name = $request->get('name');
-        $model->isbn = $request->get('isbn');
-        $model->value = $request->get('value');
+        $model->title = $request->get('title');
+        $model->body = $request->get('body');
 
         return $this->postRepository->update($model);
     }
@@ -80,5 +82,4 @@ class PostService
 
         return $this->postRepository->destroy($model);
     }
-
 }
