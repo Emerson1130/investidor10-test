@@ -1,10 +1,6 @@
 @extends('layouts.crud')
 
 @section('crud-content')
-<div class="container mx-auto px-4">
-    <a href="{{ route('dashboard') }}" type="button" class="flaot-right bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
-        Cancelar
-    </a>
     <form action="{{ route('posts.update', $post->id) }}" method="POST">
         @csrf
         @method('PUT')
@@ -25,5 +21,4 @@
             Salvar
         </button>
     </form>
-</div>
 @endsection
