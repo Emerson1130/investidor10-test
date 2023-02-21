@@ -33,7 +33,7 @@ abstract class DatabaseBaseRepository
     {
         return $this->save($model);
     }
-    
+
     public function get()
     {
         return $this->model::latest()->paginate($this->limitPerPage);
@@ -43,5 +43,4 @@ abstract class DatabaseBaseRepository
     {
         return $this->model::find($id);
     }
-
 }

@@ -31,5 +31,6 @@
         @endif
         <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#{{ $post->category }}</span>
         <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700"><b>Author</b>: {{ $post->user->name }}</span>
+        <span class="inline-block bg-indigo-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700"><i>{{ $post->created_at }}</i></span>
     </div>
 </div>

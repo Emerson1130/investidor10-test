@@ -9,7 +9,6 @@ use Illuminate\Contracts\Auth\UserProvider;
 
 class UserRepository implements UserProvider
 {
-
     public function retrieveByCredentials(array $credentials)
     {
         return User::where('email', $credentials['email'])->first();
@@ -38,5 +37,4 @@ class UserRepository implements UserProvider
     {
         //no used
     }
-
 }

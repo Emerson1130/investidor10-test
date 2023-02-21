@@ -6,7 +6,6 @@ use App\Models\Post;
 
 class PostFactory
 {
-
     public function create(array $data)
     {
         return new Post([
@@ -16,5 +15,4 @@ class PostFactory
             'user_id' => $data['user_id'],
         ]);
     }
-
 }

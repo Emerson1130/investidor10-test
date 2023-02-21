@@ -6,7 +6,6 @@ use App\Contracts\DomainModel;
 
 interface CRUDContract
 {
-
     public function store(DomainModel $model);
 
     public function update(DomainModel $model);

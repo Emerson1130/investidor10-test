@@ -12,7 +12,6 @@ use App\Http\Controllers\Controller;
 
 class PostController extends Controller
 {
-
     use WebControllerActions;
 
     const DEFAULT_RETURN_ROUTE = 'dashboard';
@@ -23,12 +22,7 @@ class PostController extends Controller
     {
         $this->postService = $postService;
     }
-    
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function search(Request $request)
     {
         $data = $this->postService->getSearchData($request);
@@ -41,12 +35,6 @@ class PostController extends Controller
         return view('crud.post.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(PostRequest $request)
     {
         $status = false;
@@ -62,7 +50,7 @@ class PostController extends Controller
 
         return $this->response($status, $message, self::DEFAULT_RETURN_ROUTE);
     }
-    
+
     public function preview(Request $request, $id)
     {
         $message = null;
@@ -82,12 +70,6 @@ class PostController extends Controller
         return view('crud.post.preview', $data);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $message = null;
@@ -107,13 +89,6 @@ class PostController extends Controller
         return view('crud.post.show', compact('post'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(PostRequest $request, $id)
     {
         $status = false;
@@ -130,13 +105,6 @@ class PostController extends Controller
         return $this->response($status, $message, self::DEFAULT_RETURN_ROUTE);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id, Request $request)
     {
         $status = false;
@@ -152,5 +120,4 @@ class PostController extends Controller
 
         return $this->response($status, $message, self::DEFAULT_RETURN_ROUTE);
     }
-
 }

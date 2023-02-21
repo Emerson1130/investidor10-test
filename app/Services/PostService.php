@@ -16,21 +16,21 @@ class PostService
     private PostValidator $postValidator;
 
     public function __construct(
-        PostRepository $postRepository,
-        PostFactory $postFactory,
-        PostValidator $postValidator,
+            PostRepository $postRepository,
+            PostFactory $postFactory,
+            PostValidator $postValidator,
     )
     {
         $this->postRepository = $postRepository;
         $this->postFactory = $postFactory;
         $this->postValidator = $postValidator;
     }
-    
+
     public function get()
     {
         return $this->postRepository->get();
     }
-    
+
     public function getPreviewData(int $id, Request $request)
     {
         return [
@@ -38,14 +38,14 @@ class PostService
             'post' => $this->find($id),
         ];
     }
-    
+
     public function getSearchData(Request $request)
     {
         $query = $request->query('query');
         $posts = $this->postRepository->search([
             'query' => $query,
         ]);
-        
+
         return [
             'logged_user_id' => GlobalHelper::getLoggedUserId($request),
             'posts' => $posts,

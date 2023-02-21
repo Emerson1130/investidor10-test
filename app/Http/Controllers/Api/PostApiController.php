@@ -13,7 +13,6 @@ use App\Http\Controllers\Controller;
 
 class PostApiController extends Controller
 {
-
     use ApiControllerActions;
 
     private PostService $postService;
@@ -126,5 +125,4 @@ class PostApiController extends Controller
 
         return $this->response($status, ['message' => $message], $httpCode);
     }
-
 }

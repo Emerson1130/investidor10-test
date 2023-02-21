@@ -27,7 +27,7 @@ class Post extends Model implements DomainModel
     {
         return $this->getAttribute('user_id');
     }
-    
+
     public function user()
     {
         return $this->belongsTo(User::class);
