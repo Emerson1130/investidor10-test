@@ -23,6 +23,18 @@ class PostController extends Controller
     {
         $this->postService = $postService;
     }
+    
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $data = $this->postService->getSearchData($request);
+
+        return view('crud.post.search-result', $data);
+    }
 
     public function create()
     {

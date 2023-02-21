@@ -30,6 +30,20 @@ class PostService
     {
         return $this->postRepository->get();
     }
+    
+    public function getSearchData(Request $request)
+    {
+        $query = $request->query('query');
+        $posts = $this->postRepository->search([
+            'query' => $query,
+        ]);
+        
+        return [
+            'logged_user_id' => GlobalHelper::getLoggedUserId($request),
+            'posts' => $posts,
+            'query' => $query
+        ];
+    }
 
     public function store(Request $request)
     {

@@ -6,7 +6,7 @@ use App\Contracts\DomainModel;
 
 abstract class DatabaseBaseRepository
 {
-
+    protected int $limitPerPage = 10;
     protected DomainModel $model;
 
     public function __construct(DomainModel $model)
@@ -36,7 +36,7 @@ abstract class DatabaseBaseRepository
     
     public function get()
     {
-        return $this->model::latest()->paginate(1);
+        return $this->model::latest()->paginate($this->limitPerPage);
     }
 
     public function find(int $id)
