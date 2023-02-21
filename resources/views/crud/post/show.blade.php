@@ -3,22 +3,23 @@
 @section('crud-content')
 <div class="container mx-auto px-4">
     <a href="{{ route('dashboard') }}" type="button" class="flaot-right bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
-        Voltar
+        Cancelar
     </a>
-    <form action="{{ route('posts.store') }}" method="POST">
+    <form action="{{ route('posts.update', $post->id) }}" method="POST">
         @csrf
+        @method('PUT')
 
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
                 Título
             </label>
-            <input name="title" maxlength="255" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
+            <input value="{{ $post->title }}" name="title" maxlength="255" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text">
         </div>
         <div class="mb-6">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="body">
                 Corpo
             </label>
-            <textarea name="body" maxlength="255" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+            <textarea name="body" maxlength="255" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">{{ $post->body }}</textarea>
         </div>
         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Salvar

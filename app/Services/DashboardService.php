@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Services\PostService;
+use App\Helpers\GlobalHelper;
+use Illuminate\Http\Request;
 
 class DashboardService
 {
@@ -15,10 +17,11 @@ class DashboardService
         $this->postService = $postService;
     }
 
-    public function getIndexData()
+    public function getIndexData(Request $request)
     {
         return [
-            'posts' => $this->postService->get()
+            'posts' => $this->postService->get(),
+            'logged_user_id' => GlobalHelper::getLoggedUserId($request)
         ];
     }
 }

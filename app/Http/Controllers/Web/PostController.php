@@ -6,15 +6,16 @@ use Throwable;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
 use App\Services\PostService;
-use App\Traits\ControllerActions;
+use App\Traits\WebControllerActions;
 use App\Exceptions\ResourceNotFoundException;
-use App\Contracts\DomainModel;
 use App\Http\Controllers\Controller;
 
 class PostController extends Controller
 {
 
-    use ControllerActions;
+    use WebControllerActions;
+
+    const DEFAULT_RETURN_ROUTE = 'dashboard';
 
     private PostService $postService;
 
@@ -22,7 +23,7 @@ class PostController extends Controller
     {
         $this->postService = $postService;
     }
-    
+
     public function create()
     {
         return view('crud.post.create');
@@ -36,21 +37,18 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
+        $status = false;
+
         try {
             $id = $this->postService->store($request);
-            dd($id);
             $status = (!empty($id));
-            $message = ($status) ? 'Post saved.' : 'Error on store the post.';
-            $httpCode = ($status) ? 201 : 500;
+            $message = ($status) ? "Post [$id] saved." : 'Error on store the post.';
         } catch (Throwable $throwable) {
-            $id = null;
             $status = false;
             $message = $throwable->getMessage();
-            $httpCode = 500;
         }
 
-        $response = compact('id', 'message');
-        return $this->response($status, $response, $httpCode);
+        return $this->response($status, $message, self::DEFAULT_RETURN_ROUTE);
     }
 
     /**
@@ -61,24 +59,21 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $resource = null;
-        $status = false;
+        $message = null;
 
         try {
-            $resource = $this->postService->find($id);
-            $status = ($resource instanceof DomainModel);
-            $httpCode = ($status) ? 200 : 500;
-            $message = 'Resource found.';
+            $post = $this->postService->find($id);
         } catch (ResourceNotFoundException $exception) {
             $message = $exception->getMessage();
-            $httpCode = 404;
         } catch (Throwable $throwable) {
             $message = $throwable->getMessage();
-            $httpCode = 500;
         }
 
-        $response = compact('resource', 'message');
-        return $this->response($status, $response, $httpCode);
+        if (!is_null($message)) {
+            return redirect('dashboard')->withErrors(['message' => $message]);
+        }
+
+        return view('crud.post.show', compact('post'));
     }
 
     /**
@@ -95,16 +90,13 @@ class PostController extends Controller
         try {
             $status = $this->postService->update($id, $request);
             $message = ($status) ? 'Post updated.' : 'Error on update the post.';
-            $httpCode = ($status) ? 200 : 500;
         } catch (ResourceNotFoundException $exception) {
             $message = $exception->getMessage();
-            $httpCode = 404;
         } catch (Throwable $throwable) {
             $message = $throwable->getMessage();
-            $httpCode = 500;
         }
 
-        return $this->response($status, ['message' => $message], $httpCode);
+        return $this->response($status, $message, self::DEFAULT_RETURN_ROUTE);
     }
 
     /**
@@ -121,16 +113,13 @@ class PostController extends Controller
         try {
             $status = $this->postService->destroy($id, $request);
             $message = ($status) ? 'Post destroyed.' : 'Error on destroy the post.';
-            $httpCode = ($status) ? 200 : 500;
         } catch (ResourceNotFoundException $exception) {
             $message = $exception->getMessage();
-            $httpCode = 404;
         } catch (Throwable $throwable) {
             $message = $throwable->getMessage();
-            $httpCode = 500;
         }
 
-        return $this->response($status, ['message' => $message], $httpCode);
+        return $this->response($status, $message, self::DEFAULT_RETURN_ROUTE);
     }
 
 }

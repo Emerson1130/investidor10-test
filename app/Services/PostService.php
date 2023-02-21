@@ -71,7 +71,7 @@ class PostService
     }
 
     public function destroy(int $id, Request $request)
-    {
+    {$id = 20;
         $model = $this->postRepository->find($id);
 
         if (empty($model)) {

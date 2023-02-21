@@ -9,12 +9,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    @if ($message = session('message'))
-                        <div class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
-                            <p class="font-bold">Informational message</p>
-                            <p class="text-sm">{{ $message }}</p>
-                        </div>
-                    @endif
+                    @include('components.informational-message')
+                    @include('components.errors')
 
                     <table class="table table-bordered">
                         <tr>
@@ -28,16 +24,19 @@
                             <td>{{ $post->title }}</td>
                             <td>{{ $post->user->name }}</td>
                             <td>
-                                <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
+                                @if($post->belongsToUser($logged_user_id))
+                                    <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
+                                        <a class="btn btn-primary" href="{{ route('posts.preview',$post->id) }}">Preview</a>
+                                        <a class="btn btn-info" href="{{ route('posts.show',$post->id) }}">Show</a>
 
-                                    <a class="btn btn-info" href="{{ route('posts.show',$post->id) }}">Show</a>
-                                    <a class="btn btn-primary" href="{{ route('posts.preview',$post->id) }}">Edit</a>
+                                        @csrf
+                                        @method('DELETE')
 
-                                    @csrf
-                                    @method('DELETE')
-
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                </form>
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                @else
+                                    <a class="btn btn-primary" href="{{ route('posts.preview',$post->id) }}">Preview</a>           
+                                @endif
                             </td>
                         </tr>
                         @endforeach

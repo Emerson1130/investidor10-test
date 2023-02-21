@@ -6,14 +6,14 @@ use Throwable;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
 use App\Services\PostService;
-use App\Traits\ControllerActions;
+use App\Traits\ApiControllerActions;
 use App\Exceptions\ResourceNotFoundException;
 use App\Contracts\DomainModel;
 
 class PostApiController extends Controller
 {
 
-    use ControllerActions;
+    use ApiControllerActions;
 
     private PostService $postService;
 

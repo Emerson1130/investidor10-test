@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-trait ControllerActions
+trait ApiControllerActions
 {
 
     public function response(bool $status, array $response, int $httpCode)
