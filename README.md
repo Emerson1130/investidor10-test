@@ -88,7 +88,7 @@ $ npm run build
 ```
 
 ---
-Abaixo, existem orientações para uso diretamente pela API caso tenha um front-end separado que faça o uso.
+Below are guidelines for using it directly via the API if you have a separate frontend that does.
 
 ## Register
 For the `login` to be carried out, it is necessary to register a registered user through the `url`: http://localhost:8080/app/public/register
