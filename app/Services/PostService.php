@@ -3,63 +3,63 @@
 namespace App\Services;
 
 use Illuminate\Http\Request;
-use App\Repositories\BookRepository;
-use App\Factories\BookFactory;
+use App\Repositories\PostRepository;
+use App\Factories\PostFactory;
 use App\Exceptions\ResourceNotFoundException;
 use App\Helpers\GlobalHelper;
-use App\Validators\BookValidator;
+use App\Validators\PostValidator;
 
-class BookService
+class PostService
 {
 
-    private BookRepository $bookRepository;
-    private BookFactory $bookFactory;
-    private BookValidator $bookValidator;
+    private PostRepository $postRepository;
+    private PostFactory $postFactory;
+    private PostValidator $postValidator;
 
     public function __construct(
-            BookRepository $bookRepository,
-            BookFactory $bookFactory,
-            BookValidator $bookValidator,
+            PostRepository $postRepository,
+            PostFactory $postFactory,
+            PostValidator $postValidator,
     )
     {
-        $this->bookRepository = $bookRepository;
-        $this->bookFactory = $bookFactory;
-        $this->bookValidator = $bookValidator;
+        $this->postRepository = $postRepository;
+        $this->postFactory = $postFactory;
+        $this->postValidator = $postValidator;
     }
 
     public function store(Request $request)
     {
-        $model = $this->bookFactory->create([
+        $model = $this->postFactory->create([
             'name' => $request->get('name'),
             'isbn' => $request->get('isbn'),
             'value' => $request->get('value'),
             'user_id' => GlobalHelper::getLoggedUserId($request)
         ]);
 
-        $status = $this->bookRepository->store($model);
+        $status = $this->postRepository->store($model);
         return ($status) ? $model->id : false;
     }
 
     public function update(int $id, Request $request)
     {
-        $model = $this->bookRepository->find($id);
+        $model = $this->postRepository->find($id);
 
         if (empty($model)) {
             throw new ResourceNotFoundException();
         }
 
-        $this->bookValidator->manipulation($model, $request);
+        $this->postValidator->manipulation($model, $request);
 
         $model->name = $request->get('name');
         $model->isbn = $request->get('isbn');
         $model->value = $request->get('value');
 
-        return $this->bookRepository->update($model);
+        return $this->postRepository->update($model);
     }
 
     public function find(int $id)
     {
-        $model = $this->bookRepository->find($id);
+        $model = $this->postRepository->find($id);
 
         if (empty($model)) {
             throw new ResourceNotFoundException();
@@ -70,15 +70,15 @@ class BookService
 
     public function destroy(int $id, Request $request)
     {
-        $model = $this->bookRepository->find($id);
+        $model = $this->postRepository->find($id);
 
         if (empty($model)) {
             throw new ResourceNotFoundException();
         }
 
-        $this->bookValidator->manipulation($model, $request);
+        $this->postValidator->manipulation($model, $request);
 
-        return $this->bookRepository->destroy($model);
+        return $this->postRepository->destroy($model);
     }
 
 }

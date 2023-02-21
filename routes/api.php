@@ -22,10 +22,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
     
     Route::post('/sanctum/loggout', [AuthApiController::class, 'loggout']);
-    
-    Route::resource('books', BookController::class)->only([
-        'store', 'show', 'update', 'destroy'
-    ]);
 });
 
 Route::post('/sanctum/login', [AuthApiController::class, 'login']);

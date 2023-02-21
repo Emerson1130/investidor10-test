@@ -2,16 +2,16 @@
 
 namespace App\Validators;
 
-use App\Models\Book;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 //use App\Helpers\GlobalHelper;
 //use App\Exceptions\NoPermissionToHandleException;
 
-class BookValidator
+class PostValidator
 {
 
-    public function manipulation(Book $model, Request $request)
+    public function manipulation(Post $model, Request $request)
     {
         /*
           if (!$model->belongsToUser(GlobalHelper::getLoggedUserId($request))) {

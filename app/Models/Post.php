@@ -7,21 +7,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use App\Contracts\DomainModel;
 
-class Book extends Model implements DomainModel
+class Post extends Model implements DomainModel
 {
-
     use SoftDeletes,
         HasFactory;
 
     protected $fillable = [
-        'name',
-        'isbn',
-        'value',
+        'title',
+        'body',
         'user_id'
-    ];
-    protected $cast = [
-        'isbn' => 'integer',
-        'value' => 'decimal'
     ];
     protected $hidden = [
         'deleted_at'
@@ -36,5 +30,4 @@ class Book extends Model implements DomainModel
     {
         return ($this->getUserId() == $userId);
     }
-
 }
