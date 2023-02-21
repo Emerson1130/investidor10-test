@@ -9,6 +9,7 @@ use App\Services\PostService;
 use App\Traits\ApiControllerActions;
 use App\Exceptions\ResourceNotFoundException;
 use App\Contracts\DomainModel;
+use App\Http\Controllers\Controller;
 
 class PostApiController extends Controller
 {
